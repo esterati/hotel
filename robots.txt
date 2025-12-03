@@ -1,1 +1,26 @@
+User-agent: *
+Allow: /
+Disallow: /css/
+Disallow: /js/
+Disallow: /images/
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /config/
 
+Sitemap: https://pupupu.publicvm.com/sitemap.xml
+
+Allow: /index.html
+Allow: /about.html
+Allow: /contact.html
+Allow: /*.html$
+
+Disallow: /*.php$
+Disallow: /*.sql$
+Disallow: /*.log$
+Disallow: /*.ini$
+Disallow: /*.cfg$
+Disallow: /*.txt$  
+
+Allow: /robots.txt
+
+Host: pupupu.publicvm.com
