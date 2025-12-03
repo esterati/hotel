@@ -27,54 +27,60 @@
         </nav>
     </header>
 
-    <main class="container">
-        <h1>Забронируйте свой отдых</h1>
-        <section class="contact-section">
-            <div class="contact-info">
-                <h2>Свяжитесь с нами</h2>
-                <p>Мы с радостью ответим на ваши вопросы и поможем с бронированием.</p>
-                <ul class="contact-details">
-                    <li>📞 <strong>Телефон:</strong> +33 (0)4 12 34 56 78</li>
-                    <li>✉️ <strong>Email:</strong> bonjour@mas-lavandes.fr</li>
-                    <li>📍 <strong>Адрес:</strong> 1234 Route de la Lavande, 04100, Прованс, Франция</li>
-                </ul>
-                <div class="map-placeholder">
-                    <!-- Здесь можно вставить iframe с Google Maps -->
-                    <p>[ Карта Google Maps будет здесь ]</p>
-                    <p>Координаты для навигатора: 43.8500, 5.3833</p>
-                </div>
+<main class="container">
+    <h1>Забронируйте свой отдых</h1>
+    
+    <section class="contact-section">
+        <div class="contact-info">
+            <h2>Свяжитесь с нами</h2>
+            <p>Мы с радостью ответим на ваши вопросы и поможем с бронированием.</p>
+            
+            <ul class="contact-details">
+                <li>📞 <strong>Телефон:</strong> +33 (0)4 12 34 56 78</li>
+                <li>✉️ <strong>Email:</strong> bonjour@mas-lavandes.fr</li>
+                <li>📍 <strong>Адрес:</strong> 1234 Route de la Lavande, 04100, Прованс, Франция</li>
+            </ul>
+            
+            <h3>Как нас найти</h3>
+            <div class="map-placeholder">
+                <p>[ Карта Google Maps будет здесь ]</p>
+                <p>Координаты для навигатора: 43.8500, 5.3833</p>
             </div>
+        </div>
 
-            <div class="contact-form">
-                <h2>Форма запроса</h2>
-                <form id="bookingForm">
-                    <div class="form-group">
-                        <label for="name">Ваше имя *</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="dates">Предполагаемые даты</label>
-                        <input type="text" id="dates" name="dates" placeholder="Например, 15–22 июля 2024">
-                    </div>
-                    <div class="form-group">
-                        <label for="guests">Количество гостей</label>
-                        <select id="guests" name="guests">
-                            <option value="1">1</option>
-                            <option value="2" selected>2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5+">5 и более</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Ваше сообщение</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Расскажите о ваших пожеланиях..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Отправить запрос</button>
+        <div class="contact-form">
+            <h2>Форма запроса</h2>
+            
+            <form id="bookingForm">
+                <h3>Ваши данные для бронирования</h3>
+                
+                <div class="form-group">
+                    <label for="name">Ваше имя *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="dates">Предполагаемые даты</label>
+                    <input type="text" id="dates" name="dates" placeholder="Например, 15–22 июля 2024">
+                </div>
+                <div class="form-group">
+                    <label for="guests">Количество гостей</label>
+                    <select id="guests" name="guests">
+                        <option value="1">1</option>
+                        <option value="2" selected>2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5+">5 и более</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Ваше сообщение</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Расскажите о ваших пожеланиях..."></textarea>
+                </div>
+                <button type="submit" class="btn">Отправить запрос</button>
                 </form>
             </div>
         </section>
@@ -93,4 +99,5 @@
 </body>
 
 </html>
+
 
