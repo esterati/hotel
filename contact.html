@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты – Mas des Lavandes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <a href="index.html" class="logo">Mas des Lavandes</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О нас</a></li>
+                <li><a href="contact.html" class="active">Контакты</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Открыть меню">☰</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Забронируйте свой отдых</h1>
+        <section class="contact-section">
+            <div class="contact-info">
+                <h2>Свяжитесь с нами</h2>
+                <p>Мы с радостью ответим на ваши вопросы и поможем с бронированием.</p>
+                <ul class="contact-details">
+                    <li>📞 <strong>Телефон:</strong> +33 (0)4 12 34 56 78</li>
+                    <li>✉️ <strong>Email:</strong> bonjour@mas-lavandes.fr</li>
+                    <li>📍 <strong>Адрес:</strong> 1234 Route de la Lavande, 04100, Прованс, Франция</li>
+                </ul>
+                <div class="map-placeholder">
+                    <!-- Здесь можно вставить iframe с Google Maps -->
+                    <p>[ Карта Google Maps будет здесь ]</p>
+                    <p>Координаты для навигатора: 43.8500, 5.3833</p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2>Форма запроса</h2>
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dates">Предполагаемые даты</label>
+                        <input type="text" id="dates" name="dates" placeholder="Например, 15–22 июля 2024">
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Количество гостей</label>
+                        <select id="guests" name="guests">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5+">5 и более</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Ваше сообщение</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Расскажите о ваших пожеланиях..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Отправить запрос</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Mas des Lavandes. Усадьба в Провансе.</p>
+        <p>Адрес: 1234 Route de la Lavande, 04100, Прованс, Франция</p>
+        <p class="footer-links">
+            <a href="#">Политика конфиденциальности</a> |
+            <a href="contact.html">Свяжитесь с нами</a>
+        </p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
