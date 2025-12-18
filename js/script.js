@@ -1,253 +1,186 @@
-// Открытие/закрытие мобильного меню
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
+const bookingForm = document.getElementById('bookingForm');
 
 if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-    });
-
-    // Закрытие меню при клике на ссылку
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            menuToggle.textContent = '☰';
-        });
+    const navLinksItems = document.querySelectorAll('.nav-links a');
+    
+    const toggleMenu = () => {
+        const isActive = navLinks.classList.toggle('active');
+        menuToggle.textContent = isActive ? '✕' : '☰';
+    };
+    
+    const closeMenu = () => {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+    };
+    
+    menuToggle.addEventListener('click', toggleMenu);
+    
+    navLinksItems.forEach(link => {
+        link.addEventListener('click', closeMenu);
     });
 }
 
-// Функция для проверки email с помощью регулярного выражения
-function isValidEmail(email) {
-    // Базовое регулярное выражение для проверки email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const isValidEmail = email => EMAIL_REGEX.test(email);
 
-// Функция для отображения сообщений об ошибках
+const ERROR_STYLES = {
+    color: '#e74c3c',
+    fontSize: '0.85rem',
+    marginTop: '5px'
+};
+
 function showError(input, message) {
     const formGroup = input.closest('.form-group');
+    let errorElement = formGroup.querySelector('.error-message');
     
-    // Удаляем старые сообщения об ошибках
-    const oldError = formGroup.querySelector('.error-message');
-    if (oldError) {
-        oldError.remove();
-    }
+    input.classList.toggle('error', !!message);
     
-    // Удаляем класс ошибки с поля ввода
-    input.classList.remove('error');
-    
-    // Если есть сообщение об ошибке, добавляем его
     if (message) {
-        input.classList.add('error');
-        const errorElement = document.createElement('div');
-        errorElement.className = 'error-message';
-        errorElement.style.color = '#e74c3c';
-        errorElement.style.fontSize = '0.85rem';
-        errorElement.style.marginTop = '5px';
+        if (!errorElement) {
+            errorElement = document.createElement('div');
+            errorElement.className = 'error-message';
+            Object.assign(errorElement.style, ERROR_STYLES);
+            formGroup.appendChild(errorElement);
+        }
         errorElement.textContent = message;
-        formGroup.appendChild(errorElement);
+    } else if (errorElement) {
+        errorElement.remove();
     }
 }
 
-// Функция для проверки поля ввода
 function validateInput(input) {
     const value = input.value.trim();
-    const fieldName = input.getAttribute('name') || input.id;
+    const fieldName = input.name || input.id;
+    const length = value.length;
     
-    // Проверка для поля имени
-    if (fieldName === 'name' || input.id === 'name') {
-        if (value.length === 0) {
-            return 'Пожалуйста, введите ваше имя';
-        } else if (value.length < 2) {
-            return 'Имя должно содержать минимум 2 символа';
-        } else if (value.length > 50) {
-            return 'Имя слишком длинное (максимум 50 символов)';
-        }
-        return '';
+    if (input.hasAttribute('required') && length === 0) {
+        return `Пожалуйста, заполните это поле`;
     }
     
-    // Проверка для поля email
-    if (fieldName === 'email' || input.id === 'email') {
-        if (value.length === 0) {
-            return 'Пожалуйста, введите ваш email';
-        } else if (!isValidEmail(value)) {
-            return 'Пожалуйста, введите корректный email (например: name@example.com)';
-        }
-        return '';
-    }
-    
-    // Проверка для поля дат
-    if (fieldName === 'dates' || input.id === 'dates') {
-        if (value.length > 0 && value.length < 5) {
-            return 'Пожалуйста, укажите даты более подробно';
-        }
-        return '';
-    }
-    
-    // Проверка для поля сообщения
-    if (fieldName === 'message' || input.id === 'message') {
-        if (value.length > 0 && value.length < 10) {
-            return 'Сообщение слишком короткое (минимум 10 символов)';
-        }
-        return '';
+    switch(fieldName) {
+        case 'name':
+        case 'user_name':
+            if (length > 0) {
+                if (length < 2) return 'Минимум 2 символа';
+                if (length > 50) return 'Максимум 50 символов';
+            }
+            break;
+            
+        case 'email':
+        case 'user_email':
+            if (length > 0 && !isValidEmail(value)) {
+                return 'Введите корректный email (name@example.com)';
+            }
+            break;
+            
+        case 'message':
+        case 'user_message':
+            if (length > 0 && length < 10) {
+                return 'Минимум 10 символов';
+            }
+            break;
+            
+        case 'dates':
+            if (length > 0 && length < 5) {
+                return 'Укажите даты подробнее';
+            }
+            break;
     }
     
     return '';
 }
 
-// Функция для проверки всей формы
 function validateForm(form) {
     let isValid = true;
+    let firstErrorInput = null;
     
-    // Проверяем все обязательные поля
-    const requiredInputs = form.querySelectorAll('input[required], textarea[required]');
-    requiredInputs.forEach(input => {
-        const error = validateInput(input);
-        if (error) {
-            showError(input, error);
-            isValid = false;
-        } else {
-            showError(input, '');
-        }
-    });
+    const inputs = form.querySelectorAll('input, textarea');
     
-    // Также проверяем необязательные поля, если они заполнены
-    const optionalInputs = form.querySelectorAll('input:not([required]), textarea:not([required])');
-    optionalInputs.forEach(input => {
-        if (input.value.trim().length > 0) {
+    inputs.forEach(input => {
+        if (input.value.trim().length > 0 || input.hasAttribute('required')) {
             const error = validateInput(input);
             if (error) {
                 showError(input, error);
                 isValid = false;
+                if (!firstErrorInput) firstErrorInput = input;
             } else {
                 showError(input, '');
             }
         } else {
-            // Если поле пустое, очищаем ошибки
             showError(input, '');
         }
     });
     
+    if (firstErrorInput) {
+        firstErrorInput.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+        firstErrorInput.focus();
+    }
+    
     return isValid;
 }
 
-// Обработка формы бронирования
-const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
-    // Добавляем обработчики для проверки в реальном времени
-    const inputs = bookingForm.querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-        // Проверка при потере фокуса
-        input.addEventListener('blur', function() {
-            const error = validateInput(this);
-            showError(this, error);
-        });
-        
-        // Очистка ошибки при начале ввода
-        input.addEventListener('input', function() {
-            // Если ошибка есть, но пользователь начал исправлять - убираем красную обводку
-            if (this.classList.contains('error')) {
-                const currentError = validateInput(this);
-                if (!currentError) {
-                    showError(this, '');
-                }
-            }
-        });
+    bookingForm.addEventListener('focusout', function(e) {
+        if (e.target.matches('input, textarea')) {
+            const error = validateInput(e.target);
+            showError(e.target, error);
+        }
     });
     
-    // Обработка отправки формы
+    bookingForm.addEventListener('input', function(e) {
+        if (e.target.matches('input, textarea')) {
+            if (e.target.classList.contains('error')) {
+                const currentError = validateInput(e.target);
+                if (!currentError) {
+                    showError(e.target, '');
+                }
+            }
+        }
+    });
+    
     bookingForm.addEventListener('submit', function(event) {
         event.preventDefault();
         
-        // Проверяем всю форму
         if (!validateForm(this)) {
-            // Прокручиваем к первой ошибке
-            const firstError = this.querySelector('.error');
-            if (firstError) {
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                firstError.focus();
-            }
             return;
         }
         
-        // Собираем данные формы
         const formData = new FormData(this);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value.trim();
+        const data = Object.fromEntries(formData.entries());
+        
+        Object.keys(data).forEach(key => {
+            data[key] = data[key].trim();
         });
         
-        // Здесь обычно отправка данных на сервер
-        // Для демо просто покажем сообщение
-        alert(`Спасибо, ${data.name}!\n\nВаш запрос на бронирование успешно отправлен.\nМы свяжемся с вами по адресу ${data.email} в течение 24 часов.\n\nДетали запроса:\n• Даты: ${data.dates || 'не указаны'}\n• Гостей: ${data.guests || '2'}\n\nС нетерпением ждем вас в Провансе!`);
+        alert(`Спасибо, ${data.name}!\n\nЗапрос отправлен.\nСвяжемся по адресу ${data.email} в течение 24 часов.`);
         
-        // Сбрасываем форму
         this.reset();
         
-        // Очищаем все сообщения об ошибках
-        this.querySelectorAll('.error-message').forEach(error => error.remove());
-        this.querySelectorAll('.error').forEach(input => input.classList.remove('error'));
+        this.querySelectorAll('.error-message').forEach(el => el.remove());
+        this.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
     });
 }
 
-// Плавная прокрутка для якорей (если они появятся)
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
+document.addEventListener('click', function(e) {
+    if (e.target.matches('a[href^="#"]')) {
+        const href = e.target.getAttribute('href');
+        if (href === '#') return;
+        
+        const target = document.querySelector(href);
+        if (target) {
+            e.preventDefault();
+            const headerHeight = 80;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: targetPosition - headerHeight,
                 behavior: 'smooth'
             });
         }
-    });
+    }
 });
-
-// Дополнительная валидация для email при каждом изменении (более строгая)
-function validateEmailOnInput(input) {
-    const value = input.value.trim();
-    
-    // Если поле пустое, не показываем ошибку сразу
-    if (value === '') return;
-    
-    // Проверяем наличие @
-    if (!value.includes('@')) {
-        showError(input, 'Email должен содержать символ @');
-        return;
-    }
-    
-    // Проверяем наличие точки после @
-    const atIndex = value.indexOf('@');
-    const dotIndex = value.indexOf('.', atIndex);
-    if (dotIndex === -1) {
-        showError(input, 'Email должен содержать точку после символа @');
-        return;
-    }
-    
-    // Проверяем длину доменной части
-    const domain = value.substring(dotIndex + 1);
-    if (domain.length < 2) {
-        showError(input, 'Доменная часть email слишком короткая');
-        return;
-    }
-    
-    // Если все проверки пройдены, очищаем ошибку
-    if (isValidEmail(value)) {
-        showError(input, '');
-    }
-}
-
-// Добавляем дополнительную валидацию для email, если форма существует
-if (bookingForm) {
-    const emailInput = bookingForm.querySelector('#email');
-    if (emailInput) {
-        emailInput.addEventListener('input', function() {
-            validateEmailOnInput(this);
-        });
-    }
-}
